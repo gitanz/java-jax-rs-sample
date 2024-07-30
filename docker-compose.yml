@@ -1,0 +1,33 @@
+services:
+  students_db:
+    container_name: students_db
+    platform: linux/x86_64
+    image: mysql:8.0
+    command: --init-file /init.sql
+    volumes:
+      - ../students_db_data:/var/lib/mysql
+      - ./init.sql:/init.sql
+    environment:
+      - MYSQL_ROOT_PASSWORD=students
+    ports:
+      - "3306:3306"
+
+  dynamodb-local:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-local
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./students_dynamodb_data:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal
+
+  dynamodb-test:
+    command: "-jar DynamoDBLocal.jar -inMemory -sharedDb"
+    image: "amazon/dynamodb-local:latest"
+    container_name: dynamodb-test
+    ports:
+      - "8001:8000"
+    volumes:
+      - "./students_dynamodb_test_data:/home/dynamodblocal/data"
+    working_dir: /home/dynamodblocal

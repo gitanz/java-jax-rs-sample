@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <property name="home" value="${LOGS_HOME:-${HOME}/IdeaProjects}/java-assessment/logs"/>
+    <property name="api-file-name" value="api"/>
+
+    <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${home}/api.log</file>
+        <append>true</append>
+        <encoder>
+            <pattern>%msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger additivity="false" level="info" name="api-logger">
+        <appender-ref ref="FILE"/>
+    </logger>
+</configuration>
+
